@@ -221,14 +221,71 @@
     </section>
 
     <section  class="bg-dark text-white" id="order">
-        <div class="container text-center">
-            <h2 class="mb-4">Order now!</h2>
+        <div class="container text-center signForm">
+            <h2 class="mb-4">For booking your visit</h2>
             <div class = "d-inline-flex">
-                <a class="btn btn-light btn-xl sr-button" href="#order">Sign in </a>
+                <button class="btn btn-light btn-xl sr-button sign-in-mark" href="#order">Sign in </button>
                 <p class="m-3">or</p>
-                <a class="btn btn-light btn-xl sr-button" href="#order">Sign up </a>
+                <button class="btn btn-light btn-xl sr-button sign-up-mark" href="#order">Sign up </button>
             </div>
         </div>
+
+        <div class="container text-center signInForm">
+                <h2 class="mb-4">Sign in below</h2>
+            <div class = "d-inline-flex">
+                <p class="m-1"> or </p>
+                <button class="btn btn-light sign-up-mark" href="#order"> Sign up </button>
+                <p class="m-1"> if you are our new client </p>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-6 m-auto">
+                    <form>
+                        <div class="form-group">
+                            <label for="inputCurrentEmail">Email address</label>
+                            <input type="email" class="form-control" id="inputCurrentEmail" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputCurrentPassword">Password</label>
+                            <input type="password" class="form-control" id="inputCurrentPassword" placeholder="Enter password">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-x1 p-3">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center signUpForm">
+                <h2 class="mb-4">Fill in the fields below</h2>
+                <div class = "d-inline-flex">
+                    <p class="m-1"> or </p>
+                    <button class="btn btn-light sign-in-mark" href="#order"> Sign in </button>
+                    <p class="m-1"> if you are already our client</p>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-6 m-auto">
+                        <form>
+                            <div class="form-group">
+                                <label for="inputNewName">Your name</label>
+                                <input type="text" class="form-control" id="inputNewName" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputNewEmail">Email address</label>
+                                <input type="email" class="form-control" id="inputNewEmail" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputNewPassword">Password</label>
+                                <input type="password" class="form-control" id="inputNewPassword" placeholder="Enter password">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputNewPasswordAgain">Password again</label>
+                                <input type="password" class="form-control" id="inputNewPasswordAgain" placeholder="Enter password">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-x1 p-3">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
     </section>
 
     <section id="contacts">
@@ -255,4 +312,5 @@
         </div>
     </section>
 </body>
+<script src="js/redrum.js"></script>
 </html>
