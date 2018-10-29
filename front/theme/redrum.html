@@ -16,7 +16,11 @@
 
     <!-- Custom styles for this template -->
     <link href="css/creative.min.css" rel="stylesheet">
-
+    <style>
+        label.error{
+            color: orangered;
+        }
+    </style>
 </head>
 <body id="page-top">
     <nav class="navbar navbar-expand-lg fixed-top navbar-shrink" id="mainNav">
@@ -221,7 +225,7 @@
     </section>
 
     <section  class="bg-dark text-white" id="order">
-        <div class="container text-center signForm">
+        <div class="container text-center signDiv">
             <h2 class="mb-4">For booking your visit</h2>
             <div class = "d-inline-flex">
                 <button class="btn btn-light btn-xl sr-button sign-in-mark" href="#order">Sign in </button>
@@ -230,7 +234,7 @@
             </div>
         </div>
 
-        <div class="container text-center signInForm">
+        <div class="container text-center signInDiv">
                 <h2 class="mb-4">Sign in below</h2>
             <div class = "d-inline-flex">
                 <p class="m-1"> or </p>
@@ -240,21 +244,21 @@
             <hr>
             <div class="row">
                 <div class="col-lg-6 m-auto">
-                    <form>
+                    <form class="signInForm">
                         <div class="form-group">
                             <label for="inputCurrentEmail">Email address</label>
-                            <input type="email" class="form-control" id="inputCurrentEmail" placeholder="Enter email">
+                            <input type="email" class="form-control" id="inputCurrentEmail" name="email" placeholder="Enter email">
                         </div>
                         <div class="form-group">
                             <label for="inputCurrentPassword">Password</label>
-                            <input type="password" class="form-control" id="inputCurrentPassword" placeholder="Enter password">
+                            <input type="password" class="form-control" id="inputCurrentPassword" name="password" placeholder="Enter password">
                         </div>
                         <button type="submit" class="btn btn-primary btn-x1 p-3">Submit</button>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="container text-center signUpForm">
+        <div class="container text-center signUpDiv">
                 <h2 class="mb-4">Fill in the fields below</h2>
                 <div class = "d-inline-flex">
                     <p class="m-1"> or </p>
@@ -264,22 +268,22 @@
                 <hr>
                 <div class="row">
                     <div class="col-lg-6 m-auto">
-                        <form>
+                        <form class="signUpForm">
                             <div class="form-group">
                                 <label for="inputNewName">Your name</label>
-                                <input type="text" class="form-control" id="inputNewName" placeholder="Enter your name">
+                                <input type="text" class="form-control" id="inputNewName" name="name" placeholder="Enter your name">
                             </div>
                             <div class="form-group">
                                 <label for="inputNewEmail">Email address</label>
-                                <input type="email" class="form-control" id="inputNewEmail" placeholder="Enter email">
+                                <input type="email" class="form-control" id="inputNewEmail" name="email" placeholder="Enter email">
                             </div>
                             <div class="form-group">
                                 <label for="inputNewPassword">Password</label>
-                                <input type="password" class="form-control" id="inputNewPassword" placeholder="Enter password">
+                                <input type="password" class="form-control" id="inputNewPassword" name ="password" placeholder="Enter password">
                             </div>
                             <div class="form-group">
                                 <label for="inputNewPasswordAgain">Password again</label>
-                                <input type="password" class="form-control" id="inputNewPasswordAgain" placeholder="Enter password">
+                                <input type="password" class="form-control" id="inputNewPasswordAgain" name="newPassword" placeholder="Enter password">
                             </div>
                             <button type="submit" class="btn btn-primary btn-x1 p-3">Submit</button>
                         </form>
@@ -313,4 +317,9 @@
     </section>
 </body>
 <script src="js/redrum.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.18.0/jquery.validate.min.js"></script>
+<script>
+
+</script>
 </html>
