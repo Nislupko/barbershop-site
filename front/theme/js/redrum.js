@@ -87,3 +87,26 @@ $().ready(function() {
         }
     });
 });
+
+/*$.ajax({
+    type: 'post',
+    url: 'http://localhost/Barbershop/back/server.php',
+    data: 'email=nislupko@gmail.com&password=admin&name=Nikita',
+    success: function(result){
+        console.log(result);
+    }
+});*/
+$(function() {
+    $('form').submit(function(e) {
+        var $form = $(this);
+        $.ajax({
+            type: $form.attr('method'),
+            url: $form.attr('action'),
+            data: $form.serialize(),
+            success: function(result){
+                console.log(result);
+            }
+        });
+        e.preventDefault();
+    });
+});

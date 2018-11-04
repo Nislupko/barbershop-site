@@ -1,6 +1,11 @@
 <?php
-
 require 'config.php';
+
+CONST DATABASE_CONNECTION_ERROR=-1;
+CONST DATA_NOT_FOUND_ERROR=-2;
+CONST NEW_DATA_ALREADY_EXIST_ERROR=-4;
+CONST PERMISSION_DENIED = 0;
+CONST PERMISSION_SUCCESS = 1;
 
 /**
  * Позволяет выполнять запросы к базе дынных
@@ -51,13 +56,33 @@ class db {
     // Внесение информации о новом пользователе в бд
     public static function add_user($arr)
     {
-        if (self::is_error()) return false;
-        else {
-            // insert user
-            self::$mysqli->query("INSERT INTO `users`(`name`, `email`, `password`) VALUES ('"
-                .$arr['name']."','"
-                .$arr['email']."','"
-                .hash('md5',$arr['password'])."')");
+        if (self::is_error()) {
+            return ['status'=>DATABASE_CONNECTION_ERROR];
+        } else {
+            $result = self::$mysqli->query("SELECT password FROM user WHERE email = '".$arr['email']."'")->fetch_row()[0];
+            if ($result=='') {
+                self::$mysqli->query("INSERT INTO user(name, email, password) VALUES ('"
+                    .$arr['name']."','"
+                    .$arr['email']."','"
+                    .hash('md5',$arr['password'])."')");
+                return ['status'=>PERMISSION_SUCCESS,'message'=>'Response: '.$result."!!!"];
+            } else{
+                return ['status'=>NEW_DATA_ALREADY_EXIST_ERROR, 'message'=>'Error'];
+            }
+        }
+    }
+
+    public static function check_user($arr)
+    {
+        if (self::is_error()){
+            return ['status'=>DATABASE_CONNECTION_ERROR];
+        } else {
+           $result = self::$mysqli->query("SELECT password FROM user WHERE email = '".$arr['email']."'")->fetch_row()[0];
+           if (hash('md5',$arr['password'])==$result) {
+                return ['status'=>PERMISSION_SUCCESS, 'message'=>self::$mysqli->query("SELECT name FROM user WHERE email = '".$arr['email']."'")->fetch_row()[0]];
+            } else {
+                return ['status'=>PERMISSION_DENIED];
+            }
         }
     }
 

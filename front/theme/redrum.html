@@ -244,7 +244,7 @@
             <hr>
             <div class="row">
                 <div class="col-lg-6 m-auto">
-                    <form class="signInForm">
+                    <form  method="POST" action="../../back/signIn.php" class="signInForm" name="signInForm">
                         <div class="form-group">
                             <label for="inputCurrentEmail">Email address</label>
                             <input type="email" class="form-control" id="inputCurrentEmail" name="email" placeholder="Enter email">
@@ -268,7 +268,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-lg-6 m-auto">
-                        <form class="signUpForm">
+                        <form  method="POST" action="../../back/signUp.php" class="signUpForm" name="signUpForm">
                             <div class="form-group">
                                 <label for="inputNewName">Your name</label>
                                 <input type="text" class="form-control" id="inputNewName" name="name" placeholder="Enter your name">
@@ -316,8 +316,8 @@
         </div>
     </section>
 </body>
-<script src="js/redrum.js"></script>
 <script src="vendor/jquery/jquery.min.js"></script>
+<script src="js/redrum.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.18.0/jquery.validate.min.js"></script>
 <script>
 
