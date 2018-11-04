@@ -85,7 +85,23 @@ class db {
             }
         }
     }
-
+    public static function get_time($date){
+        if (self::is_error()){
+            return ['status'=>DATABASE_CONNECTION_ERROR];
+        } else {
+            $result = self::$mysqli->query("INSERT INTO booking(user,visitDate,visitTime,service) VALUES ('')")->fetch_all();
+            return $result;
+        }
+    }
+    public static function add_visit($arr){
+        if (self::is_error()){
+            return ['status'=>DATABASE_CONNECTION_ERROR,'message'=>"Internal error.Please, tell admin about this issue"];
+        } else {
+            self::$mysqli->query("INSERT INTO booking(user,visitDate,visitTime,service) VALUES ('".$arr['user']."','".$arr['visitDate']."','".$arr['visitTime']."','".$arr['service']."')")
+                                        or die(json_encode(['status'=>NEW_DATA_ALREADY_EXIST_ERROR,'message'=>"This time is already booked"]));
+            return ['status'=>PERMISSION_SUCCESS,'Successfully booked for you'];
+        }
+    }
 
     public static function is_error() {
         if (!isset(self::$instance) || !is_null(self::$error)) return true;
