@@ -22,7 +22,6 @@ for (let i = 0; i < signUpButtons.length; i++) {
 }
 
 /*Validation over jQuery Validator*/
-
 $().ready(function() {
     $('.signUpForm').validate({
         rules: {
@@ -93,12 +92,13 @@ $().ready(function() {
 //Sends data from sign in and sign up form
 $(function() {
     $('.signForm').submit(function(e) {
-        var $form = $(this);
+        let $form = $(this);
         $.ajax({
             type: $form.attr('method'),
             url: $form.attr('action'),
             data: $form.serialize(),
             success: function(response){
+                $('.sectionOrder').find('.p-error').remove();
                 let result = JSON.parse(response);
                 //Sets user's name and id, hide log in/up blocks, show cabinet
                 if (result['success']) {
@@ -110,7 +110,8 @@ $(function() {
                     $('.greeting').innerHTML="Welcome, "+currentUser['name'];
                     get_visits();
                 } else {
-                    $('.errorP').append(result['message']);
+                    $('.sectionOrder').find('.p-error').remove();
+                    $('.sectionOrder').append('<p class="p-error text-center m-2">'+result['message']+'</p>');
                 }
             }
         });
@@ -118,9 +119,12 @@ $(function() {
     });
 });
 
+/**
+*Sends ajax describing new visit and status of this query (success/error)
+*/
 $(function() {
     $('.addVisitForm').submit(function(e) {
-        var $form = $(this);
+        let $form = $(this);
         $.ajax({
             type: $form.attr('method'),
             url: $form.attr('action'),
@@ -128,7 +132,6 @@ $(function() {
             success: function(response){
                 let result = JSON.parse(response);
                 get_visits();
-                console.log(result);
             }
         });
         e.preventDefault();
