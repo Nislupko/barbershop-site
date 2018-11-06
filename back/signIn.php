@@ -6,7 +6,7 @@ if (!db::is_error()) {
     $result=db::check_user(array('email' => $_POST['email'], 'password'=>$_POST['password']));
     if ($result[status]==PERMISSION_SUCCESS){
         $response['success']=true;
-        $response['message']=$result['message'];
+        $response['message']=['name'=>$result['message']['name'],'id'=>$result["message"]['id']];
     } else if ($result[status]==PERMISSION_DENIED) {
          $response['message']="There is no such combination of email and password. Please, try again";
     }

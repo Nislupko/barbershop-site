@@ -3,8 +3,10 @@ const signInButtons = document.querySelectorAll('.sign-in-mark');
 const signUpButtons = document.querySelectorAll('.sign-up-mark');
 const signInForm =  document.querySelector('.signInDiv');
 const signUpForm =  document.querySelector('.signUpDiv');
+const currentUser={id:0,userName:'Guest'};
 signInForm.style.display='none';
 signUpForm.style.display='none';
+document.querySelector('.cabinetDiv').style.display='none';
 showForm = function(formToShow,formToHide){
     return function(){
         document.querySelector('.signDiv').style.display='none';
@@ -88,25 +90,111 @@ $().ready(function() {
     });
 });
 
-/*$.ajax({
-    type: 'post',
-    url: 'http://localhost/Barbershop/back/server.php',
-    data: 'email=nislupko@gmail.com&password=admin&name=Nikita',
-    success: function(result){
-        console.log(result);
-    }
-});*/
+//Sends data from sign in and sign up form
 $(function() {
-    $('form').submit(function(e) {
+    $('.signForm').submit(function(e) {
         var $form = $(this);
         $.ajax({
             type: $form.attr('method'),
             url: $form.attr('action'),
             data: $form.serialize(),
-            success: function(result){
+            success: function(response){
+                let result = JSON.parse(response);
+                //Sets user's name and id, hide log in/up blocks, show cabinet
+                if (result['success']) {
+                    currentUser["id"]=result["message"]["id"];
+                    currentUser["name"]=result["message"]["name"];
+                    document.querySelector('.cabinetDiv').style.display='block';
+                    signInForm.style.display='none';
+                    signUpForm.style.display='none';
+                    $('.greeting').innerHTML="Welcome, "+currentUser['name'];
+                    get_visits();
+                } else {
+                    $('.errorP').append(result['message']);
+                }
+            }
+        });
+        e.preventDefault();
+    });
+});
+
+$(function() {
+    $('.addVisitForm').submit(function(e) {
+        var $form = $(this);
+        $.ajax({
+            type: $form.attr('method'),
+            url: $form.attr('action'),
+            data: $form.serialize()+'&id='+currentUser['id'],
+            success: function(response){
+                let result = JSON.parse(response);
+                get_visits();
                 console.log(result);
             }
         });
         e.preventDefault();
     });
 });
+/**
+ * Sends ajax and gets associative array of dates with available times: {status:1, message: [21-01-2018:[15:00:00,16:00:00],22-01-2018:[10:00:00]]}
+ * Every 'date' is pasted into <select> of day input as available option, for every selected option all its "times" are pasted into <select> for time input
+ * */
+$.ajax({
+    type: 'GET',
+    url: '../../back/get_time.php',
+    success: function(result){
+        const Dates=JSON.parse(result);
+        const arrDates = Object.keys(Dates).map(function(key) {
+            return [String(key), JSON.parse(result)[key]];
+        });
+        //paste dates
+        arrDates.forEach(function(item) {
+            $('.visitDay').append('<option>'+item[0]+'</option>')
+        });
+        let selectedDate;
+        $(".bookedVisitsDiv")
+        $(".visitDay")
+            .change(function () {
+                //for every time new select has been chosen
+                $( ".visitDay option:selected" ).each(function() {
+                    selectedDate = $( this ).text();
+                });
+                const timeSelect=$('.visitTime');
+                //remove old hours
+                timeSelect.find('option').remove();
+                //past new hours
+                Dates[selectedDate].forEach(function(item){
+                    timeSelect.append('<option>'+item+'</option>')
+                })
+            })
+            .change();
+    }
+});
+
+/**
+ * Sends ajax and gets  status of response and array 'date'-'time'-'typeOfService': {status:1, message: [["2018-11-11", "22:00:00", "cutting"]]}
+ * Every set is pasted into div as <p></p> string describing next scheduled visit
+ * In case of error or no visits print such message for user
+ * */
+const get_visits = function() {
+    $.ajax({
+        type: 'GET',
+        url: '../../back/show_visits.php?',
+        data:'user='+currentUser['id'],
+        success: function(response){
+            $(".bookedVisitsDiv").find('p.toVisit').remove();
+            const result=JSON.parse(response);
+            if (result["status"]>0) {
+                if (result["message"].length>0 ) {
+                    result["message"].forEach(function(item){
+                        $(".bookedVisitsDiv").append("<p class='m1 toVisit'>Your service '"+ item[2]+"' is scheduled on "+item[0]+" at "+item[1] +".</p>");
+                    });
+                } else {
+                    $(".bookedVisitsDiv").append("<p class='m1 toVisit'>There are no scheduled visits yet</p>");
+                }
+            } else {
+                $(".bookedVisitsDiv").append("<p class='m1 toVisit'>"+result['message']+"</p>");
+            }
+
+        }
+    });
+};

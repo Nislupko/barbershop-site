@@ -1,16 +1,12 @@
 <?php
 require 'config.php';
+error_reporting(0);
 
 CONST DATABASE_CONNECTION_ERROR=-1;
 CONST DATA_NOT_FOUND_ERROR=-2;
 CONST NEW_DATA_ALREADY_EXIST_ERROR=-4;
 CONST PERMISSION_DENIED = 0;
 CONST PERMISSION_SUCCESS = 1;
-
-/**
- * Позволяет выполнять запросы к базе дынных
- * Статический класс
- */
 
 class db {
     private static $instance;
@@ -47,13 +43,13 @@ class db {
      * Публичный интерфейс
      */
 
-    // Инициализация подключения к бд
+
     public static function connect($db_name = DB_NAME) {
         if (is_null(self::$instance)){
             self::$instance = new self(DB_HOST, DB_USER, DB_PASSWORD, $db_name);
         }
     }
-    // Внесение информации о новом пользователе в бд
+
     public static function add_user($arr)
     {
         if (self::is_error()) {
@@ -65,7 +61,8 @@ class db {
                     .$arr['name']."','"
                     .$arr['email']."','"
                     .hash('md5',$arr['password'])."')");
-                return ['status'=>PERMISSION_SUCCESS,'message'=>'Response: '.$result."!!!"];
+                $id = self::$mysqli->query("SELECT id FROM user WHERE email = '".$arr['email']."'")->fetch_row()[0];
+                return ['status'=>PERMISSION_SUCCESS,'message'=>$id];
             } else{
                 return ['status'=>NEW_DATA_ALREADY_EXIST_ERROR, 'message'=>'Error'];
             }
@@ -77,29 +74,43 @@ class db {
         if (self::is_error()){
             return ['status'=>DATABASE_CONNECTION_ERROR];
         } else {
-           $result = self::$mysqli->query("SELECT password FROM user WHERE email = '".$arr['email']."'")->fetch_row()[0];
-           if (hash('md5',$arr['password'])==$result) {
-                return ['status'=>PERMISSION_SUCCESS, 'message'=>self::$mysqli->query("SELECT name FROM user WHERE email = '".$arr['email']."'")->fetch_row()[0]];
+           $result = self::$mysqli->query("SELECT password,name,id FROM user WHERE email = '".$arr['email']."'")->fetch_row();
+           if (hash('md5',$arr['password'])==$result[0]) {
+
+                return ['status'=>PERMISSION_SUCCESS, 'message'=>['name'=>$result[1],'id'=>$result[2]]];
             } else {
                 return ['status'=>PERMISSION_DENIED];
             }
         }
     }
-    public static function get_time($date){
+
+    public static function get_time(){
         if (self::is_error()){
-            return ['status'=>DATABASE_CONNECTION_ERROR];
+            return ['status'=>DATABASE_CONNECTION_ERROR,'message'=>"Internal error.Please, tell admin about this issue"];
         } else {
-            $result = self::$mysqli->query("INSERT INTO booking(user,visitDate,visitTime,service) VALUES ('')")->fetch_all();
-            return $result;
+            $res = self::$mysqli->query("select w1.time, w2.d from work_hour w1 cross join (SELECT (CURRENT_DATE+interval seq day) as d FROM seq_1_to_30) w2 where (w1.time,w2.d) not in ( select visitTime,visitDate from booking ) order by 2,1")
+            or die(json_encode(['status'=>PERMISSION_DENIED,'message'=>"Internal error.Please, tell admin about this issue"]));
+            return ['status'=>PERMISSION_SUCCESS,'message'=>$res->fetch_all()];
         }
     }
+
     public static function add_visit($arr){
         if (self::is_error()){
             return ['status'=>DATABASE_CONNECTION_ERROR,'message'=>"Internal error.Please, tell admin about this issue"];
         } else {
-            self::$mysqli->query("INSERT INTO booking(user,visitDate,visitTime,service) VALUES ('".$arr['user']."','".$arr['visitDate']."','".$arr['visitTime']."','".$arr['service']."')")
+            self::$mysqli->query("INSERT INTO booking(user,visitDate,visitTime,service) VALUES ('".$arr['id']."','".$arr['visitDate']."','".$arr['visitTime']."','".$arr['typeOfService']."')")
                                         or die(json_encode(['status'=>NEW_DATA_ALREADY_EXIST_ERROR,'message'=>"This time is already booked"]));
-            return ['status'=>PERMISSION_SUCCESS,'Successfully booked for you'];
+            return ['status'=>PERMISSION_SUCCESS,'message'=>'Successfully booked for you'];
+        }
+    }
+
+    public static function show_visits($arr){
+        if (self::is_error()){
+            return ['status'=>DATABASE_CONNECTION_ERROR,'message'=>"Internal error.Please, tell admin about this issue"];
+        } else {
+            $res = self::$mysqli->query("SELECT visitDate ,visitTime,service FROM booking WHERE user=".$arr['user'])
+            or die(json_encode(['status'=>NEW_DATA_ALREADY_EXIST_ERROR,'message'=>"Internal error.Please, tell admin about this issue"]));
+            return ['status'=>PERMISSION_SUCCESS,'message'=>$res->fetch_all()];
         }
     }
 
@@ -107,6 +118,7 @@ class db {
         if (!isset(self::$instance) || !is_null(self::$error)) return true;
         else return false;
     }
+
     public static function error_msg() {
         if (self::is_error()) return self::$error;
         else if (is_null(self::$instance)) return "Need connection to the database.";

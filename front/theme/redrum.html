@@ -196,14 +196,14 @@
                     <div class="service-box mt-5 mx-auto">
                         <i class="fas fa-4x fa-heart text-primary mb-3 sr-icon-1"></i>
                         <h3 class="mb-3">Hairstyles</h3>
-                        <p class="text-muted mb-0">It's limited only by your imagination. We can do everything</p>
+                        <p class="text-muted mb-0">It's limited only by your imagination. Every idea comes to life with us</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
                     <div class="service-box mt-5 mx-auto">
                         <i class="fas fa-4x fa-beard text-primary mb-3 sr-icon-2"></i>
                         <h3 class="mb-3">Shaving</h3>
-                        <p class="text-muted mb-0">Beards and mustache are our passion. We did it for Captain Jack Sparrow</p>
+                        <p class="text-muted mb-0">Beards and mustache are our passion. Inimitable style guaranteed</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 text-center">
@@ -244,7 +244,7 @@
             <hr>
             <div class="row">
                 <div class="col-lg-6 m-auto">
-                    <form  method="POST" action="../../back/signIn.php" class="signInForm" name="signInForm">
+                    <form  method="POST" action="../../back/signIn.php" class="signInForm signForm" name="signInForm">
                         <div class="form-group">
                             <label for="inputCurrentEmail">Email address</label>
                             <input type="email" class="form-control" id="inputCurrentEmail" name="email" placeholder="Enter email">
@@ -268,7 +268,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-lg-6 m-auto">
-                        <form  method="POST" action="../../back/signUp.php" class="signUpForm" name="signUpForm">
+                        <form  method="POST" action="../../back/signUp.php" class="signUpForm signForm" name="signUpForm">
                             <div class="form-group">
                                 <label for="inputNewName">Your name</label>
                                 <input type="text" class="form-control" id="inputNewName" name="name" placeholder="Enter your name">
@@ -286,10 +286,45 @@
                                 <input type="password" class="form-control" id="inputNewPasswordAgain" name="newPassword" placeholder="Enter password">
                             </div>
                             <button type="submit" class="btn btn-primary btn-x1 p-3">Submit</button>
+                            <p class="m-1 errorP">Privet </p>
                         </form>
                     </div>
                 </div>
+        </div>
+        <div class="container text-center cabinetDiv">
+            <h2 class="mb-4 greeting">Welcome, Guest</h2>
+            <div class="row">
+                <div class="col-lg-6 m-auto">
+                    <h2 class="mb-4">Upcoming visits</h2>
+                    <hr>
+                    <div class="bookedVisitsDiv"></div>
+                </div>
+                <div class="col-lg-6 m-auto">
+                    <h2 class="mb-4">New visit</h2>
+                    <hr>
+                    <form class="addVisitForm" method="POST" action="../../back/add_visit.php" >
+                        <div class="form-group">
+                            <label for="typeOfService">Type of service</label>
+                            <select class="form-control" name="typeOfService" id="typeOfService">
+                                <option>Haircut</option>
+                                <option>Shaving</option>
+                                <option>Royal shaving</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="visitDate">Day</label>
+                            <select class="form-control visitDay" name="visitDate" id="visitDate"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="visitTime">Time</label>
+                            <select class="form-control visitTime" name="visitTime" id="visitTime"></select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-x1 p-3">Book this visit</button>
+                    </form>
+                </div>
             </div>
+        </div>
     </section>
 
     <section id="contacts">
