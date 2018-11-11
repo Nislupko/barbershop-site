@@ -88,7 +88,7 @@ class db {
         if (self::is_error()){
             return ['status'=>DATABASE_CONNECTION_ERROR,'message'=>"Internal error.Please, tell admin about this issue"];
         } else {
-            $res = self::$mysqli->query("select w1.time, w2.d from work_hour w1 cross join (SELECT (CURRENT_DATE+interval seq day) as d FROM seq_1_to_30) w2 where (w1.time,w2.d) not in ( select visitTime,visitDate from booking ) order by 2,1")
+            $res = self::$mysqli->query("select w1.time, w2.d from work_hour w1 cross join (SELECT (CURRENT_DATE+interval seq day) as d FROM seq_0_to_30) w2 where ((w1.time,w2.d) not in ( select visitTime,visitDate from booking )) and (w2.d > CURRENT_DATE or (w2.d=CURRENT_DATE and w1.time>CURRENT_TIME)) order by 2,1")
             or die(json_encode(['status'=>PERMISSION_DENIED,'message'=>"Internal error.Please, tell admin about this issue"]));
             return ['status'=>PERMISSION_SUCCESS,'message'=>$res->fetch_all()];
         }
@@ -108,7 +108,7 @@ class db {
         if (self::is_error()){
             return ['status'=>DATABASE_CONNECTION_ERROR,'message'=>"Internal error.Please, tell admin about this issue"];
         } else {
-            $res = self::$mysqli->query("SELECT visitDate ,visitTime,service FROM booking WHERE user=".$arr['user'])
+            $res = self::$mysqli->query("SELECT visitDate ,visitTime,service FROM booking WHERE user=".$arr['user']." and (visitDate>CURRENT_DATE or (visitDate=CURRENT_DATE and visitTime>CURRENT_TIME)) order by 1,2")
             or die(json_encode(['status'=>NEW_DATA_ALREADY_EXIST_ERROR,'message'=>"Internal error.Please, tell admin about this issue"]));
             return ['status'=>PERMISSION_SUCCESS,'message'=>$res->fetch_all()];
         }

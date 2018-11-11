@@ -6,26 +6,18 @@
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom fonts for this template -->
+    <!-- Custom fonts -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 
-    <!-- Plugin CSS -->
-    <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
+    <!-- Custom styles -->
     <link href="css/creative.min.css" rel="stylesheet">
-    <style>
-        label.error{
-            color: orangered;
-        }
-    </style>
 </head>
 <body id="page-top">
     <nav class="navbar navbar-expand-lg fixed-top navbar-shrink" id="mainNav">
         <div class="container">
-            <a class="navbar-brand " href="#page-top">Redrum Barber</a>
+            <a class="navbar-brand" href="#page-top">Redrum Barber</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -47,6 +39,10 @@
                         <a class="nav-link js-scroll-trigger" href="#contacts">Contact</a>
                     </li>
                 </ul>
+            </div>
+            <div class="col text-right">
+                <a href="#order" class="btn btn-sm sign-in-mark sign-in-nav">Log in</a>
+                <a href="#order" class="btn btn-sm log-out-nav">Log out</a>
             </div>
         </div>
     </nav>
@@ -88,7 +84,7 @@
         <div class="container-fluid p-0">
             <div class="row no-gutters popup-gallery">
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="img/portfolio/fullsize/1.jpg">
+                    <div class="portfolio-box" href="img/portfolio/fullsize/1.jpg">
                         <img class="img-fluid" src="img/portfolio/thumbnails/1.jpg" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -100,10 +96,10 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="img/portfolio/fullsize/2.jpg">
+                    <div class="portfolio-box" href="img/portfolio/fullsize/2.jpg">
                         <img class="img-fluid" src="img/portfolio/thumbnails/2.jpg" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -111,14 +107,14 @@
                                     Ivan
                                 </div>
                                 <div class="project-name">
-                                    Barber: Jey
+                                    Barber: Ruslan
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="img/portfolio/fullsize/3.jpg">
+                    <div class="portfolio-box" href="img/portfolio/fullsize/3.jpg">
                         <img class="img-fluid" src="img/portfolio/thumbnails/3.jpg" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -126,14 +122,14 @@
                                     Alexey
                                 </div>
                                 <div class="project-name">
-                                    Barber: Jey
+                                    Barber: Ruslan
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="img/portfolio/fullsize/4.jpg">
+                    <div class="portfolio-box" href="img/portfolio/fullsize/4.jpg">
                         <img class="img-fluid" src="img/portfolio/thumbnails/4.jpg" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -145,10 +141,10 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="img/portfolio/fullsize/5.jpg">
+                    <div class="portfolio-box" href="img/portfolio/fullsize/5.jpg">
                         <img class="img-fluid" src="img/portfolio/thumbnails/5.jpg" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -160,10 +156,10 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
-                    <a class="portfolio-box" href="img/portfolio/fullsize/6.jpg">
+                    <div class="portfolio-box" href="img/portfolio/fullsize/6.jpg">
                         <img class="img-fluid" src="img/portfolio/thumbnails/6.jpg" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
@@ -175,7 +171,7 @@
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -244,7 +240,7 @@
             <hr>
             <div class="row">
                 <div class="col-lg-6 m-auto">
-                    <form  method="POST" action="../../back/signIn.php" class="signInForm signForm" name="signInForm">
+                    <form  method="POST" action="../back/signIn.php" class="signInForm signForm" name="signInForm">
                         <div class="form-group">
                             <label for="inputCurrentEmail">Email address</label>
                             <input type="email" class="form-control" id="inputCurrentEmail" name="email" placeholder="Enter email">
@@ -268,7 +264,7 @@
                 <hr>
                 <div class="row">
                     <div class="col-lg-6 m-auto">
-                        <form  method="POST" action="../../back/signUp.php" class="signUpForm signForm" name="signUpForm">
+                        <form  method="POST" action="../back/signUp.php" class="signUpForm signForm" name="signUpForm">
                             <div class="form-group">
                                 <label for="inputNewName">Your name</label>
                                 <input type="text" class="form-control" id="inputNewName" name="name" placeholder="Enter your name">
@@ -278,12 +274,12 @@
                                 <input type="email" class="form-control" id="inputNewEmail" name="email" placeholder="Enter email">
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name ="password" placeholder="Enter password">
+                                <label for="id_password">Password</label>
+                                <input type="password" class="form-control" id="id_password" name ="password" placeholder="Enter password">
                             </div>
                             <div class="form-group">
-                                <label for="newPassword">Password again</label>
-                                <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter password">
+                                <label for="id_newPassword">Password again</label>
+                                <input type="password" class="form-control" id="id_newPassword" name="newPassword" placeholder="Enter password">
                             </div>
                             <button type="submit" class="btn btn-primary btn-x1 p-3">Submit</button>
                         </form>
@@ -291,7 +287,9 @@
                 </div>
         </div>
         <div class="container text-center cabinetDiv">
-            <h2 class="mb-4 greeting">Welcome, Guest</h2>
+            <div class="greeting">
+                <h2 class="mb-4">Welcome, Guest</h2>
+            </div>
             <div class="row">
                 <div class="col-lg-6 m-auto">
                     <h2 class="mb-4">Upcoming visits</h2>
@@ -301,7 +299,7 @@
                 <div class="col-lg-6 m-auto">
                     <h2 class="mb-4">New visit</h2>
                     <hr>
-                    <form class="addVisitForm" method="POST" action="../../back/add_visit.php" >
+                    <form class="addVisitForm" method="POST" action="../back/add_visit.php" >
                         <div class="form-group">
                             <label for="typeOfService">Type of service</label>
                             <select class="form-control" name="typeOfService" id="typeOfService">
@@ -338,22 +336,29 @@
             <div class="row">
                 <div class="col-lg-4 ml-auto text-center">
                     <i class="fas fa-phone fa-3x mb-3 sr-contact-1"></i>
-                    <p>8-800-555-35-35</p>
+                    <p>
+                        <a href="tel:880055535351">8-800-555-35-35</a>
+                    </p>
                 </div>
                 <div class="col-lg-4 mr-auto text-center">
                     <i class="fas fa-envelope fa-3x mb-3 sr-contact-2"></i>
                     <p>
-                        <a href="mailto:your-email@your-domain.com">redrum@barbershop.com</a>
+                        <a href="mailto:redrum@barbershop.com">redrum@barbershop.com</a>
+                    </p>
+                </div>
+                <div class="col-lg-4 mr-auto text-center">
+                    <i class="fas fa-map fa-3x mb-3 sr-contact-3"></i>
+                    <p>
+                        <a href="https://www.google.com/maps/place/Nevsky+prospect,+102,+Saint+Petersburg">102, Nevsky Prospect, Saint-Petersburg</a>
                     </p>
                 </div>
             </div>
         </div>
     </section>
 </body>
+<!-- jQuery scripts-->
 <script src="vendor/jquery/jquery.min.js"></script>
+<script src="js/validator.min.js"></script>
+<!-- Custom Scripts -->
 <script src="js/redrum.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.18.0/jquery.validate.min.js"></script>
-<script>
-
-</script>
 </html>
