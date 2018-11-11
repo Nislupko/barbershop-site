@@ -1,4 +1,4 @@
-/*Functions show and hide 'sign in' and 'sign up' blocks*/
+/*Consts helping to show and hide 'sign in' and 'sign up' blocks*/
 const signInButtons = document.querySelectorAll('.sign-in-mark');
 const signUpButtons = document.querySelectorAll('.sign-up-mark');
 const signInForm =  document.querySelector('.signInDiv');
