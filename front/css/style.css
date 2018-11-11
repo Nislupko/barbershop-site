@@ -215,6 +215,14 @@ header.masthead p {
   max-width: 400px;
 }
 
+.fa-scissors:before {
+  content: "\f0c4";
+}
+
+.fa-male:before {
+  content: "\f229";
+}
+
 .portfolio-box {
   position: relative;
   display: block;
