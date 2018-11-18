@@ -7,17 +7,6 @@ const gallery = document.querySelectorAll('.portfolio-box');
 const currentUser={};
 
 /**
- * return function showing one block and hiding another
- * */
-const showForm = function(formToShow,formToHide){
-    return function(){
-        document.querySelector('.signDiv').style.display='none';
-        formToShow.style.display='block';
-        formToHide.style.display='none';
-    }
-}
-
-/**
  * Validation with jQuery Validator*/
 const startValidation = function(){
     $().ready(function() {
@@ -108,28 +97,18 @@ const logout = function(){
     document.querySelector('.signDiv').style.display='block';
 }
 
-/**
- * Log in user: hiding and showing necessary blocks and changing current user info
- * */
-const login = function(id,name){
-    //set current user
-    currentUser['id']=id;
-    currentUser['name']=name;
-    //show cabinet
-    document.querySelector('.cabinetDiv').style.display='block';
-    signInForm.style.display='none';
-    signUpForm.style.display='none';
-    //greet user
-    $('.greeting').find('h2').remove();
-    $('.greeting').append('<h2 class="mb-4">Welcome, '+currentUser['name']+'</h2>');
-    //hide log in button in nav, show log out button
-    document.querySelector('.sign-in-nav').style.display='none';
-    document.querySelector('.log-out-nav').style.display='block';
-    //Fill options of the form with values from server
-    getDates();
-}
-
 const addHandlers = function(){
+    /**
+     * return function showing one block and hiding another
+     * */
+    const showForm = function(formToShow,formToHide){
+        return function(){
+            document.querySelector('.signDiv').style.display='none';
+            formToShow.style.display='block';
+            formToHide.style.display='none';
+        }
+    }
+
     /**Add handler sending request for booking new visit for current user*/
     $('.addVisitForm').submit(function(e) {
         let $form = $(this);
@@ -178,14 +157,67 @@ const addHandlers = function(){
 
 }
 
-const init = function() {
-    logout();
-    startValidation();
-    addHandlers();
-};
-
-/**Sends data from sign in and sign up form and try to authorize user*/
+/**
+ * Sends data from sign in and sign up form and try to authorize user*/
 const sendAjax = function() {
+
+    /**
+     * Log in user: hiding and showing necessary blocks and changing current user info
+     * */
+    const login = function(id,name){
+        /**
+         * Sends ajax and gets associative array of dates with available times: {status:1, message: [21-01-2018:[15:00:00,16:00:00],22-01-2018:[10:00:00]]}
+         * Every 'date' is pasted into <select> of day input as available option, for every selected option all its 'times' are pasted into <select> for time input
+         * */
+        const getDates = function(){
+            $.ajax({
+                type: 'GET',
+                url: '../back/get_time.php',
+                success: function(result){
+                    const Dates=JSON.parse(result);
+                    const arrDates = Object.keys(Dates).map(function(key) {
+                        return [String(key), JSON.parse(result)[key]];
+                    });
+                    //paste dates
+                    arrDates.forEach(function(item) {
+                        $('.visitDay').append('<option>'+item[0]+'</option>')
+                    });
+                    let selectedDate;
+                    $('.visitDay')
+                        .change(function () {
+                            //for every time new select has been chosen
+                            $( '.visitDay option:selected' ).each(function() {
+                                selectedDate = $( this ).text();
+                            });
+                            const timeSelect=$('.visitTime');
+                            //remove old hours
+                            timeSelect.find('option').remove();
+                            //past new hours
+                            Dates[selectedDate].forEach(function(item){
+                                timeSelect.append('<option>'+item+'</option>')
+                            })
+                        })
+                        .change();
+                }
+            });
+        }
+        //set current user
+        currentUser['id']=id;
+        currentUser['name']=name;
+        //show cabinet
+        document.querySelector('.cabinetDiv').style.display='block';
+        signInForm.style.display='none';
+        signUpForm.style.display='none';
+        //greet user
+        $('.greeting').find('h2').remove();
+        $('.greeting').append('<h2 class="mb-4">Welcome, '+currentUser['name']+'</h2>');
+        //hide log in button in nav, show log out button
+        document.querySelector('.sign-in-nav').style.display='none';
+        document.querySelector('.log-out-nav').style.display='block';
+        //Fill options of the form with values from server
+        getDates();
+    }
+
     $('.signForm').submit(function(e) {
         e.preventDefault();
         let form = $(this);
@@ -208,43 +240,6 @@ const sendAjax = function() {
         });
     });
 };
-
-/**
- * Sends ajax and gets associative array of dates with available times: {status:1, message: [21-01-2018:[15:00:00,16:00:00],22-01-2018:[10:00:00]]}
- * Every 'date' is pasted into <select> of day input as available option, for every selected option all its 'times' are pasted into <select> for time input
- * */
-const getDates = function(){
-    $.ajax({
-        type: 'GET',
-        url: '../back/get_time.php',
-        success: function(result){
-            const Dates=JSON.parse(result);
-            const arrDates = Object.keys(Dates).map(function(key) {
-                return [String(key), JSON.parse(result)[key]];
-            });
-            //paste dates
-            arrDates.forEach(function(item) {
-                $('.visitDay').append('<option>'+item[0]+'</option>')
-            });
-            let selectedDate;
-            $('.visitDay')
-                .change(function () {
-                    //for every time new select has been chosen
-                    $( '.visitDay option:selected' ).each(function() {
-                        selectedDate = $( this ).text();
-                    });
-                    const timeSelect=$('.visitTime');
-                    //remove old hours
-                    timeSelect.find('option').remove();
-                    //past new hours
-                    Dates[selectedDate].forEach(function(item){
-                        timeSelect.append('<option>'+item+'</option>')
-                    })
-                })
-                .change();
-        }
-    });
-}
 
 /**
  * Sends ajax and gets  status of response and array 'date'-'time'-'typeOfService': {status:1, message: [['2018-11-11', '22:00:00', 'cutting']]}
@@ -275,4 +270,7 @@ const getVisits = function() {
     });
 };
 
-init();
+logout();
+startValidation();
+addHandlers();
+
