@@ -12,8 +12,8 @@ const currentUser={};
 const showForm = function(formToShow,formToHide){
     return function(){
         document.querySelector('.signDiv').style.display='none';
-        formToShow.style.display="block";
-        formToHide.style.display="none";
+        formToShow.style.display='block';
+        formToHide.style.display='none';
     }
 }
 
@@ -40,28 +40,28 @@ const startValidation = function(){
                 },
                 newPassword: {
                     required:true,
-                    equalTo:"#id_password"
+                    equalTo:'#id_password'
                 }
             },
             messages:{
                 email: {
-                    required: "Please enter your email",
-                    email: "This email is invalid. Please try again",
-                    maxlength: "Email should be 100 symbols or shorter"
+                    required: 'Please enter your email',
+                    email: 'This email is invalid. Please try again',
+                    maxlength: 'Email should be 100 symbols or shorter'
                 },
                 password:{
-                    required: "Please enter your password",
-                    minlength: "Password should be 4 symbols or longer",
-                    maxlength: "Password should be 32 symbols or shorter"
+                    required: 'Please enter your password',
+                    minlength: 'Password should be 4 symbols or longer',
+                    maxlength: 'Password should be 32 symbols or shorter'
                 },
                 name: {
-                    required: "Please enter your name",
-                    minlength: "Name should be 2 symbols or longer",
-                    maxlength: "Name should be 32 symbols or shorter"
+                    required: 'Please enter your name',
+                    minlength: 'Name should be 2 symbols or longer',
+                    maxlength: 'Name should be 32 symbols or shorter'
                 },
                 newPassword: {
-                    required: "Enter your password one more time",
-                    equalTo: "Passwords are not equal. Try again"
+                    required: 'Enter your password one more time',
+                    equalTo: 'Passwords are not equal. Try again'
                 }
             },
             submitHandler: function() {
@@ -80,11 +80,11 @@ const startValidation = function(){
             },
             messages:{
                 email: {
-                    required: "Please enter your email",
-                    email: "This email is invalid. Please try again"
+                    required: 'Please enter your email',
+                    email: 'This email is invalid. Please try again'
                 },
                 password:{
-                    required: "Please enter your password"
+                    required: 'Please enter your password'
                 }
             },
             submitHandler: function() {
@@ -113,8 +113,8 @@ const logout = function(){
  * */
 const login = function(id,name){
     //set current user
-    currentUser["id"]=id;
-    currentUser["name"]=name;
+    currentUser['id']=id;
+    currentUser['name']=name;
     //show cabinet
     document.querySelector('.cabinetDiv').style.display='block';
     signInForm.style.display='none';
@@ -152,7 +152,6 @@ const addHandlers = function(){
 
     /**Add handlers for log in / log out buttons*/
     signInButtons.forEach(function(signInButton){
-        console.log(signInButton);
         signInButton.addEventListener('click',showForm(signInForm,signUpForm));
     });
     signUpButtons.forEach(function(signUpButton){
@@ -185,7 +184,7 @@ const init = function() {
     addHandlers();
 };
 
-/*Sends data from sign in and sign up form and try to authorize user*/
+/**Sends data from sign in and sign up form and try to authorize user*/
 const sendAjax = function() {
     $('.signForm').submit(function(e) {
         e.preventDefault();
@@ -195,15 +194,15 @@ const sendAjax = function() {
             url: form.attr('action'),
             data: form.serialize(),
             success: function(response){
-                $('.sectionOrder').find('.p-error').remove();
+                let sectionOrder = $('.sectionOrder');
+                sectionOrder.find('.p-error').remove();
                 let result = JSON.parse(response);
                 //Sets user's name and id, hide log in/up blocks, show cabinet
                 if (result['success']) {
-                    login(result["message"]["id"],result["message"]["name"]);
+                    login(result['message']['id'],result['message']['name']);
                     getVisits();
                 } else {
-                    $('.sectionOrder').find('.p-error').remove();
-                    $('.sectionOrder').append('<p class="p-error text-center m-2">'+result['message']+'</p>');
+                    sectionOrder.append('<p class="p-error text-center m-2">'+result['message']+'</p>');
                 }
             }
         });
@@ -212,7 +211,7 @@ const sendAjax = function() {
 
 /**
  * Sends ajax and gets associative array of dates with available times: {status:1, message: [21-01-2018:[15:00:00,16:00:00],22-01-2018:[10:00:00]]}
- * Every 'date' is pasted into <select> of day input as available option, for every selected option all its "times" are pasted into <select> for time input
+ * Every 'date' is pasted into <select> of day input as available option, for every selected option all its 'times' are pasted into <select> for time input
  * */
 const getDates = function(){
     $.ajax({
@@ -228,11 +227,10 @@ const getDates = function(){
                 $('.visitDay').append('<option>'+item[0]+'</option>')
             });
             let selectedDate;
-            $(".bookedVisitsDiv")
-            $(".visitDay")
+            $('.visitDay')
                 .change(function () {
                     //for every time new select has been chosen
-                    $( ".visitDay option:selected" ).each(function() {
+                    $( '.visitDay option:selected' ).each(function() {
                         selectedDate = $( this ).text();
                     });
                     const timeSelect=$('.visitTime');
@@ -249,7 +247,7 @@ const getDates = function(){
 }
 
 /**
- * Sends ajax and gets  status of response and array 'date'-'time'-'typeOfService': {status:1, message: [["2018-11-11", "22:00:00", "cutting"]]}
+ * Sends ajax and gets  status of response and array 'date'-'time'-'typeOfService': {status:1, message: [['2018-11-11', '22:00:00', 'cutting']]}
  * Every set is pasted into div as <p></p> string describing next scheduled visit
  * In case of error or no visits print such message for user
  * */
@@ -259,18 +257,18 @@ const getVisits = function() {
         url: '../back/show_visits.php?',
         data:'user='+currentUser['id'],
         success: function(response){
-            $(".bookedVisitsDiv").find('p.toVisit').remove();
+            $('.bookedVisitsDiv').find('p.toVisit').remove();
             const result=JSON.parse(response);
-            if (result["status"]>0) {
-                if (result["message"].length>0 ) {
-                    result["message"].forEach(function(item){
-                        $(".bookedVisitsDiv").append("<p class='m1 toVisit'>Your service '"+ item[2]+"' is scheduled on "+item[0]+" at "+item[1] +".</p>");
+            if (result['status']>0) {
+                if (result['message'].length>0 ) {
+                    result['message'].forEach(function(item){
+                        $('.bookedVisitsDiv').append('<p class="m1 toVisit">Your service "'+ item[2]+'" is scheduled on '+item[0]+' at '+item[1] +'.</p>');
                     });
                 } else {
-                    $(".bookedVisitsDiv").append("<p class='m1 toVisit'>There are no scheduled visits yet</p>");
+                    $('.bookedVisitsDiv').append('<p class="m1 toVisit">There are no scheduled visits yet</p>');
                 }
             } else {
-                $(".bookedVisitsDiv").append("<p class='m1 toVisit'>"+result['message']+"</p>");
+                $('.bookedVisitsDiv').append('<p class="m1 toVisit">'+result['message']+'</p>');
             }
 
         }
